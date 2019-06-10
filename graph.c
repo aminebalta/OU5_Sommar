@@ -101,9 +101,14 @@ graph *graph_insert_node(graph *g, const char *s){
     node->nodeName = (char*)s;
     node->visited = false;
     
+    //Loop to find the index of the first free space
     while (array_2d_has_value(g->airArray, i, 0)){
         i++;
     }
+    //Insert node
+    array_2d_set_value(g->airArray, node, i, 0);
+    
+    return g;
 }
 /**
  * graph_find_node() - Find a node stored in the graph.
