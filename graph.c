@@ -116,7 +116,21 @@ graph *graph_insert_node(graph *g, const char *s){
  *
  * Returns: A pointer to the found node, or NULL.
  */
-//node *graph_find_node(const graph *g, const char *s);
+
+node *graph_find_node(const graph *g, const char *s){
+    int i = 0;
+    node *nodeFind = NULL;
+    
+    while (array_2d_has_value(g->airArray, i, 0)) {
+        nodeFind = array_2d_inspect_value(g->airArray, i, 0);
+        
+        if (strcmp(nodeFind->nodeName, s) == 0) {
+            return nodeFind;
+        }
+        i++;
+    }
+    return NULL;
+}
 
 /**
  * graph_node_is_seen() - Return the seen status for a node.
@@ -125,7 +139,17 @@ graph *graph_insert_node(graph *g, const char *s){
  *
  * Returns: The seen status for the node.
  */
-//bool graph_node_is_seen(const graph *g, const node *n);
+bool graph_node_is_seen(const graph *g, const node *n){
+    
+    node *nodeSeen = graph_find_node(g, n->nodeName);
+   
+    if (nodeSeen->visited) {
+        return true;
+    }
+    else{
+        return false;
+    }
+}
 
 /**
  * graph_node_set_seen() - Set the seen status for a node.
@@ -135,7 +159,13 @@ graph *graph_insert_node(graph *g, const char *s){
  *
  * Returns: The modified graph.
  */
-//graph *graph_node_set_seen(graph *g, node *n, bool seen);
+graph *graph_node_set_seen(graph *g, node *n, bool seen){
+    
+    node *nodeSeen = graph_find_node(g, n->nodeName);
+    nodeSeen->visited = seen;
+    
+    return g;
+}
 
 /**
  * graph_reset_seen() - Reset the seen status on all nodes in the graph.
@@ -143,7 +173,22 @@ graph *graph_insert_node(graph *g, const char *s){
  *
  * Returns: The modified graph.
  */
-//graph *graph_reset_seen(graph *g);
+graph *graph_reset_seen(graph *g){
+    
+    int i = 0, j;
+    node *nodeSeen;
+    
+    while(array_2d_has_value(g->airArray, i, 0)){
+        j = 0;
+        while (array_2d_has_value(g->airArray, i, j)) {
+            nodeSeen = array_2d_inspect_value(g->airArray, i, j);
+            nodeSeen->visited = false;
+            j++;
+        }
+        i++;
+    }
+    return g;
+}
 
 /**
  * graph_insert_edge() - Insert an edge into the graph.
@@ -155,7 +200,34 @@ graph *graph_insert_node(graph *g, const char *s){
  *
  * Returns: The modified graph.
  */
-//graph *graph_insert_edge(graph *g, node *n1, node *n2);
+graph *graph_insert_edge(graph *g, node *n1, node *n2){
+    
+    int i = 0;
+    node *srcNode, *destNode;
+    
+    while(array_2d_has_value(g->airArray, i, 0)){
+        
+        srcNode = array_2d_inspect_value(g->airArray, i, 0);
+        if(strcmp(srcNode->nodeName, n1->nodeName) == 0){
+            int j = 0;
+            
+            while (array_2d_has_value(g->airArray, i, j)) {
+                destNode = array_2d_inspect_value(g->airArray, i, j);
+                
+                if (strcmp(destNode->nodeName, n2->nodeName) == 0) {
+                    break;
+                };
+                    j++;
+                    if(!array_2d_has_value(g->airArray, i, j)){
+                        array_2d_set_value(g->airArray, n2, i, j);
+                        j++;
+                    }
+            }
+        }
+        i++;
+    }
+    return g;
+}
 
 /**
  * graph_delete_node() - Remove a node from the graph.
@@ -198,7 +270,27 @@ graph *graph_insert_node(graph *g, const char *s){
  * Returns: A pointer to a list of nodes. Note: The list must be
  * dlist_kill()-ed after use.
  */
-//dlist *graph_neighbours(const graph *g,const node *n);
+dlist *graph_neighbours(const graph *g,const node *n){
+    
+    dlist *dlistNeigbours = dlist_empty(NULL);
+    dlist_pos position = dlist_first(dlistNeigbours);
+    node *nodeNeighbours;
+    int i = 0, j =1;
+    
+    while(array_2d_has_value(g->airArray, i, 0)){
+        if (nodes_are_equal(array_2d_inspect_value(g->airArray, i, 0), n)){
+            break;
+        }
+            i++;
+    }
+    while (array_2d_has_value(g->airArray, i, j)) {
+        nodeNeighbours = array_2d_inspect_value(g->airArray, i, j);
+        dlist_insert(dlistNeigbours, nodeNeighbours, position);
+        position = dlist_next(dlistNeigbours, position);
+        j++;
+    }
+    return dlistNeigbours;
+}
 
 /**
  * graph_kill() - Destroy a given graph.
@@ -208,7 +300,24 @@ graph *graph_insert_node(graph *g, const char *s){
  *
  * Returns: Nothing.
  */
-//void graph_kill(graph *g);
+void graph_kill(graph *g){
+    node *nodeKill;
+    
+    for(int i = 0; i < array_2d_high(g->airArray, 1); i++){
+        if(array_2d_has_value(g->airArray, i, 0)){
+            nodeKill = array_2d_inspect_value(g->airArray, i, 0);
+            if(nodeKill != NULL){
+                if(nodeKill->nodeName != NULL){
+                    free(nodeKill->nodeName);
+                }
+                free(nodeKill);
+            }
+        }
+    }
+    array_2d_kill(g->airArray);
+    free(g);
+}
+
 
 /**
  * graph_print() - Iterate over the graph elements and print their values.
