@@ -37,11 +37,14 @@ int main(int argc, char *argv[]){
         //file_n=argv[argc-1];
         file_n=argv[1];
     }
+    
+    //TA BORT!!!!!!!!
     //If no argument is added, use airmap1.map as default
+    /*
     else{
         file_n = "airmap1.map";
         printf("> ./isConnected %s \n", file_n);
-    }
+    }*/
     
     FILE *file = fopen(file_n, "r");
     
