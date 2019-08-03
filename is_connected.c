@@ -38,7 +38,7 @@ int main(int argc, char *argv[]){
         file_n=argv[1];
     }
     
-    //TA BORT!!!!!!!!
+    //TA BORT!!!!!!!! hej hej hej
     //If no argument is added, use airmap1.map as default
     /*
     else{
