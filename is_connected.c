@@ -52,6 +52,7 @@ int main(int argc, char *argv[]){
     
     FILE *file = fopen(file_n, "r");
     
+    /*Exit if file is not opended*/
     if (file == NULL){
         fprintf(stderr, "ERROR: %s could not be opend\n", file_n);
         exit(EXIT_FAILURE);
@@ -68,13 +69,15 @@ int main(int argc, char *argv[]){
         }
     }
     
+    /*If th number of edges ar 0, exit*/
     if(nr_of_edges == 0){
         fprintf(stderr, "ERROR: Error reading the numbers of edges\n");
         exit(EXIT_FAILURE);
     }
     
+    /*New empty graph*/
     graph *node_graph = graph_empty(nr_of_edges*2);
-    
+    /*Exit if new graph is not empty*/
     if(!graph_is_empty(node_graph)){
         fprintf(stderr, "ERROR: New graph was not empty\n");
         exit(EXIT_FAILURE);
@@ -125,6 +128,7 @@ int main(int argc, char *argv[]){
     char user_input_node1[41];
     char user_input_node2[41];
     
+    /*Buffer*/
     char input_line[256];
     
     printf("Enter origin and destination (quit to exit): ");
@@ -136,6 +140,7 @@ int main(int argc, char *argv[]){
         
         bool destination_found = false;
         
+        /*Use buffer so there are two imputs, if not exit loop and exit program*/
         if (sscanf(input_line,"%40s %40s", user_input_node1, user_input_node2)!= 2){
             if (strcmp(user_input_node1, "quit") == 0) {
                 break;
@@ -143,12 +148,14 @@ int main(int argc, char *argv[]){
             printf("You need to enter two airports, try again. \n");
         
         }
+        /*If node is not found, program contunes and new input i requested*/
         else if(!graph_find_node(node_graph, user_input_node1) ||
            !graph_find_node(node_graph, user_input_node2)){
             printf("Airport did not exist in map, try again.\n\n");
             user_input_node1[0] = '\0';
             user_input_node2[0] = '\0';
         }
+        /*If input is the same, program contunes and new input is requested*/
         else if(graph_find_node(node_graph, user_input_node1) ==
            graph_find_node(node_graph, user_input_node2)){
             printf("Airports is equal, try again.\n\n");
@@ -171,7 +178,7 @@ int main(int argc, char *argv[]){
         }
         printf("Enter origin and destination (quit to exit): ");
     }
-    printf("Normal exit.\n");
+    printf("Proram has been quit. Normal exit.\n");
     graph_kill(node_graph);
     return 0;
 }
