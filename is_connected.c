@@ -37,6 +37,10 @@ int main(int argc, char *argv[]){
         //file_n=argv[argc-1];
         file_n=argv[1];
     }
+    else{
+        fprintf(stderr, "No file input\n");
+        exit(EXIT_FAILURE);
+    }
     
     //TA BORT!!!!!!!! hej hej hej
     //If no argument is added, use airmap1.map as default
@@ -121,16 +125,25 @@ int main(int argc, char *argv[]){
     char user_input_node1[41];
     char user_input_node2[41];
     
-    //Read user input
-    printf("Enter origin and destination (quit to exit): ");
-    scanf("%40s", user_input_node1);
+    char input_line[256];
     
-    //Continue unntil quit
-    while(strcmp(user_input_node1, "quit")){
-        scanf("%40s", user_input_node2);
+    printf("Enter origin and destination (quit to exit): ");
+    
+    //Continue until quit
+    while(fgets(input_line, sizeof input_line, stdin) != NULL){
+        //Read user input
+        
+        
         bool destination_found = false;
         
-        if(!graph_find_node(node_graph, user_input_node1) ||
+        if (sscanf(input_line,"%40s %40s", user_input_node1, user_input_node2)!= 2){
+            if (strcmp(user_input_node1, "quit") == 0) {
+                break;
+            }
+            printf("You need to enter two airports, try again. \n");
+        
+        }
+        else if(!graph_find_node(node_graph, user_input_node1) ||
            !graph_find_node(node_graph, user_input_node2)){
             printf("Airport did not exist in map, try again.\n\n");
             user_input_node1[0] = '\0';
@@ -157,7 +170,6 @@ int main(int argc, char *argv[]){
             }
         }
         printf("Enter origin and destination (quit to exit): ");
-        scanf("%40s", user_input_node1);
     }
     printf("Normal exit.\n");
     graph_kill(node_graph);
