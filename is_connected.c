@@ -34,7 +34,6 @@ int main(int argc, char *argv[]){
     
     char *file_n;
     if (argc > 1){
-        //file_n=argv[argc-1];
         file_n=argv[1];
     }
     else{
