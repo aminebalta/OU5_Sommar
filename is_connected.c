@@ -42,14 +42,6 @@ int main(int argc, char *argv[]){
         exit(EXIT_FAILURE);
     }
     
-    //TA BORT!!!!!!!! hej hej hej
-    //If no argument is added, use airmap1.map as default
-    /*
-    else{
-        file_n = "airmap1.map";
-        printf("> ./isConnected %s \n", file_n);
-    }*/
-    
     FILE *file = fopen(file_n, "r");
     
     /*Exit if file is not opended*/
