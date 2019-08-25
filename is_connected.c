@@ -4,7 +4,7 @@
 //
 //  Created by Amine Balta and Matilda Nilsson on 2019-06-09.
 //  Copyright © 2019 Amine Balta and Matilda Nilsson. All rights reserved.
-//heloooooookokpoop
+//
 
 #include <stdio.h>
 #include <stdlib.h>
