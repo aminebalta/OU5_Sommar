@@ -22,20 +22,20 @@ bool blank_line(const char *c);
 bool comment_line(char *c);
 
 /*
- * main() - Runs the program.
+ * main() - Runs the program, reads in file, creates a graph, read, handle input from user and
+ * free and alloc memory..
  */
 int main(int argc, char *argv[]){
     
     char file_content[1000];
     int nr_of_edges = 0;
     
-    //Read file given as an argument
-    //char *file_n = argv[argc-1];
-    
+    /*Read file given as an argument*/
     char *file_n;
     if (argc > 1){
         file_n=argv[1];
     }
+    /*Exit i file not found.*/
     else{
         fprintf(stderr, "No file input\n");
         exit(EXIT_FAILURE);
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]){
         }
     }
     
-    /*If th number of edges ar 0, exit*/
+    /*If the number of edges are zero, exit*/
     if(nr_of_edges == 0){
         fprintf(stderr, "ERROR: Error reading the numbers of edges\n");
         exit(EXIT_FAILURE);
@@ -68,6 +68,7 @@ int main(int argc, char *argv[]){
     
     /*New empty graph*/
     graph *node_graph = graph_empty(nr_of_edges*2);
+    
     /*Exit if new graph is not empty*/
     if(!graph_is_empty(node_graph)){
         fprintf(stderr, "ERROR: New graph was not empty\n");
@@ -79,6 +80,7 @@ int main(int argc, char *argv[]){
         if((blank_line(file_content) || comment_line(file_content))){
             continue;
         }
+        /*Alloc memory for nodes*/
         else{
             char *node1 = malloc(sizeof(char)*41);
             char *node2 = malloc(sizeof(char)*41);
@@ -92,7 +94,7 @@ int main(int argc, char *argv[]){
                 exit(EXIT_FAILURE);
             }
             
-            //Insert unique nodes in the the graph
+            /*Insert unique nodes in the the graph*/
             if(!graph_find_node(node_graph, node1)){
                 node_graph = graph_insert_node(node_graph, node1);
                 airport1 = 1;
@@ -104,7 +106,7 @@ int main(int argc, char *argv[]){
             
             node_graph = graph_insert_edge(node_graph, graph_find_node(node_graph, node1), graph_find_node(node_graph, node2));
             
-            //Free memory that is not used
+            /*Free memory that is not used*/
             if(airport1 == 0){
                 free(node1);
             }
@@ -113,7 +115,8 @@ int main(int argc, char *argv[]){
             }
         }
     }
-    //Close file when the it is read
+    
+    /*Close file when the it is read*/
     fclose(file);
     
     char user_input_node1[41];
@@ -123,10 +126,10 @@ int main(int argc, char *argv[]){
     
     printf("Enter origin and destination (quit to exit): ");
     
-    //Continue until quit
+    /*Continue until quit*/
     while(fgets(input_line, sizeof input_line, stdin) != NULL){
-        //Read user input
-        
+    
+        /*Read user input*/
         
         bool destination_found = false;
         
@@ -187,16 +190,16 @@ bool find_path(graph *g,node *src,node *dest){
     dlist_pos pos_list;
     bool destination_found = false;
     
-    //New empty queue that store nodes to be traversed
+    /*New empty queue that store nodes to be traversed*/
     queue *traverse_queue = queue_empty(NULL);
-    //Set traversed queue to seen and add to queue
+    /*Set traversed queue to seen and add to queue*/
     g = graph_node_set_seen(g, src, true);
     queue_enqueue(traverse_queue, src);
     
-    //While there are still unchecked neigbours or if destination is found
+    /*While there are still unchecked neigbours or if destination is found*/
     while(!queue_is_empty(traverse_queue) && !destination_found){
         
-        //First element in queue
+        /*First element in queue*/
         n = queue_front(traverse_queue);
         queue_dequeue(traverse_queue);
         
@@ -219,7 +222,7 @@ bool find_path(graph *g,node *src,node *dest){
     
     g = graph_reset_seen(g);
     
-    //Remove node from queue after destination has been found
+    /*Remove node from queue after destination has been found*/
     while (!queue_is_empty(traverse_queue)) {
         queue_dequeue(traverse_queue);
     }
@@ -236,7 +239,7 @@ bool find_path(graph *g,node *src,node *dest){
  * @c: char
  */
 int first_character(const char *c){
-    //First char
+    /*First char*/
     int i= 0;
     while (c[i] && isspace(c[i])) {
         i++;
