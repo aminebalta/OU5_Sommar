@@ -127,7 +127,6 @@ int main(int argc, char *argv[]){
     
     char user_input_node1[41];
     char user_input_node2[41];
-    
     /*Buffer*/
     char input_line[256];
     
