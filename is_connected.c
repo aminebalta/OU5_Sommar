@@ -22,7 +22,7 @@ bool blank_line(const char *c);
 bool comment_line(char *c);
 
 /*
- * main() - Runs the program
+ * main() - Runs the program.
  */
 int main(int argc, char *argv[]){
     
@@ -41,14 +41,6 @@ int main(int argc, char *argv[]){
         fprintf(stderr, "No file input\n");
         exit(EXIT_FAILURE);
     }
-    
-    //TA BORT!!!!!!!! hej hej hej
-    //If no argument is added, use airmap1.map as default
-    /*
-    else{
-        file_n = "airmap1.map";
-        printf("> ./isConnected %s \n", file_n);
-    }*/
     
     FILE *file = fopen(file_n, "r");
     
@@ -144,7 +136,7 @@ int main(int argc, char *argv[]){
             if (strcmp(user_input_node1, "quit") == 0) {
                 break;
             }
-            printf("You need to enter two airports, try again. \n");
+            printf("You need to enter two airports, try again.\n\n");
         
         }
         /*If node is not found, program contunes and new input i requested*/
@@ -157,7 +149,7 @@ int main(int argc, char *argv[]){
         /*If input is the same, program contunes and new input is requested*/
         else if(graph_find_node(node_graph, user_input_node1) ==
            graph_find_node(node_graph, user_input_node2)){
-            printf("Airports is equal, try again.\n\n");
+            printf("Airports are equal, try again.\n\n");
             user_input_node1[0] = '\0';
             user_input_node2[0] = '\0';
         }
@@ -183,11 +175,11 @@ int main(int argc, char *argv[]){
 }
 
 /*
- * find_path() -
+ * find_path() - Use the input souce to check if there is a connection between the airports
  *
- * @g:
- * @src:
- * @dest:
+ * @g: Graph
+ * @src: Input node
+ * @dest: Input destination node
  */
 bool find_path(graph *g,node *src,node *dest){
     
@@ -239,9 +231,10 @@ bool find_path(graph *g,node *src,node *dest){
 
 
 /*
- * first_character() -
+ * first_character() - The first non-whitespace character is returned or -1 if
+ * only whitespace is found.
  *
- * @c:
+ * @c: char
  */
 int first_character(const char *c){
     //First char
@@ -258,9 +251,10 @@ int first_character(const char *c){
 }
 
 /*
- * last_character() -
+ * last_character() - The last non-whitespace character is returned or -1 if
+ * only whitespace is found.
  *
- * @c:
+ * @c: char
  */
 int last_character(const char *c){
     //Last char
@@ -278,9 +272,9 @@ int last_character(const char *c){
 }
 
 /*
- * blank_line() -
+ * blank_line() - If only whilespace is found, true is returned.
  *
- * @c:
+ * @c: char
  */
 bool blank_line(const char *c){
     //Line is blank if it only has white-space
@@ -288,9 +282,9 @@ bool blank_line(const char *c){
 }
 
 /*
- * comment_line() -
+ * comment_line() - If a comment is found, true is returned, i.e. fist character is '#'.
  *
- * @c:
+ * @c: char
  */
 bool comment_line(char *c){
     int i = first_character(c);
