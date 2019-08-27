@@ -10,11 +10,14 @@
 #include "graph.h"
 #include "array_2d.h"
 
+/*Node data structure*/
 
 struct node {
     bool visited;
     char *nodeName;
 };
+
+/*Graph data structure*/
 struct graph {
     array_2d *airArray;
 };
@@ -30,6 +33,7 @@ struct graph {
  *
  */
 bool nodes_are_equal(const node *n1,const node *n2){
+   
     if (n1 == n2){
         return true;
     }
@@ -39,17 +43,15 @@ bool nodes_are_equal(const node *n1,const node *n2){
 // =================== GRAPH STRUCTURE INTERFACE ======================
 
 /**
- * graph_empty() - Create an empty graph.
+ * graph_empty() - Create an empty graph, allocate mamory an create array.
  * @max_nodes: The maximum number of nodes the graph can hold.
  *
  * Returns: A pointer to the new graph.
  */
 graph *graph_empty(int max_nodes){
-    //Allocate memory
-    graph *graph = malloc(sizeof(graph));
-    //Create array
-    graph->airArray = array_2d_create(0, max_nodes, 0, max_nodes, NULL);
     
+    graph *graph = malloc(sizeof(graph));
+    graph->airArray = array_2d_create(0, max_nodes, 0, max_nodes, NULL);
     return graph;
 }
 
@@ -60,7 +62,7 @@ graph *graph_empty(int max_nodes){
  * Returns: True if graph is empty, otherwise false.
  */
 bool graph_is_empty(const graph *g){
-    //Control if the graph is empty
+    
     for(int i = 0; i < array_2d_high(g->airArray, 1); i++){
         for(int j = 0; j < array_2d_high(g->airArray, 2); j++){
             if(array_2d_has_value(g->airArray, i, j)){
@@ -72,15 +74,8 @@ bool graph_is_empty(const graph *g){
 }
 
 /**
- * graph_has_edges() - Check if a graph has any edges.
- * @g: Graph to check.
- *
- * Returns: True if graph has any edges, otherwise false.
- */
-//bool graph_has_edges(const graph *g);
-
-/**
- * graph_insert_node() - Inserts a node with the given name into the graph.
+ * graph_insert_node() - Inserts a node with the given name into the graph. Char is limited to a maximum of
+ * 40 characters and the array will alwyas end with 0.
  * @g: Graph to manipulate.
  * @s: Node name.
  *
@@ -90,21 +85,17 @@ bool graph_is_empty(const graph *g){
  * Returns: The modified graph.
  */
 graph *graph_insert_node(graph *g, const char *s){
-    //A char string is limited to a maximum of 40 characters
-    //The array will always end with '\0'
+    
     int maxChar = 41;
     int i = 0;
     
-    //Creates a node (size 41)
     node *node = malloc(sizeof(char)*maxChar);
     node->nodeName = (char*)s;
     node->visited = false;
     
-    //Loop to find the index of the first free space
     while (array_2d_has_value(g->airArray, i, 0)){
         i++;
     }
-    //Insert node
     array_2d_set_value(g->airArray, node, i, 0);
     
     return g;
@@ -118,6 +109,7 @@ graph *graph_insert_node(graph *g, const char *s){
  */
 
 node *graph_find_node(const graph *g, const char *s){
+    
     int i = 0;
     node *nodeFind = NULL;
     
@@ -203,12 +195,12 @@ graph *graph_reset_seen(graph *g){
 graph *graph_insert_edge(graph *g, node *n1, node *n2){
     
     int i = 0;
-    node *srcNode, *destNode;
+    node *inNode, *destNode;
     
     while(array_2d_has_value(g->airArray, i, 0)){
         
-        srcNode = array_2d_inspect_value(g->airArray, i, 0);
-        if(strcmp(srcNode->nodeName, n1->nodeName) == 0){
+        inNode = array_2d_inspect_value(g->airArray, i, 0);
+        if(strcmp(inNode->nodeName, n1->nodeName) == 0){
             int j = 0;
             
             while (array_2d_has_value(g->airArray, i, j)) {
@@ -228,39 +220,6 @@ graph *graph_insert_edge(graph *g, node *n1, node *n2){
     }
     return g;
 }
-
-/**
- * graph_delete_node() - Remove a node from the graph.
- * @g: Graph to manipulate.
- * @n: Node to remove from the graph.
- *
- * Returns: The modified graph.
- *
- * NOTE: Undefined if the node is not in the graph.
- */
-//graph *graph_delete_node(graph *g, node *n);
-
-/**
- * graph_delete_edge() - Remove an edge from the graph.
- * @g: Graph to manipulate.
- * @n1: Source node (pointer) for the edge.
- * @n2: Destination node (pointer) for the edge.
- *
- * Returns: The modified graph.
- *
- * NOTE: Undefined if the edge is not in the graph.
- */
-//graph *graph_delete_edge(graph *g, node *n1, node *n2);
-
-/**
- * graph_choose_node() - Return an arbitrary node from the graph.
- * @g: Graph to inspect.
- *
- * Returns: A pointer to an arbitrayry node.
- *
- * NOTE: The return value is undefined for an empty graph.
- */
-//node *graph_choose_node(const graph *g);
 
 /**
  * graph_neighbours() - Return a list of neighbour nodes.
@@ -317,15 +276,3 @@ void graph_kill(graph *g){
     array_2d_kill(g->airArray);
     free(g);
 }
-
-
-/**
- * graph_print() - Iterate over the graph elements and print their values.
- * @g: Graph to inspect.
- *
- * Iterates over the graph and prints its contents.
- *
- * Returns: Nothing.
- */
-//void graph_print(const graph *g);
-
