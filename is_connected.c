@@ -33,9 +33,9 @@ int main(int argc, char *argv[]){
     /*Read file given as an argument*/
     char *file_n;
     if (argc > 1){
-        file_n=argv[1];
+        file_n = argv[1];
     }
-    /*Exit i file not found.*/
+    /*Exit: file not found.*/
     else{
         fprintf(stderr, "No file input\n");
         exit(EXIT_FAILURE);
@@ -48,7 +48,7 @@ int main(int argc, char *argv[]){
         fprintf(stderr, "ERROR: %s could not be opend\n", file_n);
         exit(EXIT_FAILURE);
     }
-    
+    /*Reads the numbers of edges*/
     while(fgets(file_content, sizeof(file_content), file) != NULL){
         
         if(blank_line(file_content) || comment_line(file_content)){
@@ -75,6 +75,7 @@ int main(int argc, char *argv[]){
         exit(EXIT_FAILURE);
     }
     
+    /*Runs when the file still has content*/
     while(fgets(file_content, sizeof(file_content), file)){
         
         if((blank_line(file_content) || comment_line(file_content))){
