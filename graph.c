@@ -86,10 +86,9 @@ bool graph_is_empty(const graph *g){
  */
 graph *graph_insert_node(graph *g, const char *s){
     
-    int maxChar = 41;
     int i = 0;
     
-    node *node = malloc(sizeof(char)*maxChar);
+    node *node = malloc(sizeof(char)*41);
     node->nodeName = (char*)s;
     node->visited = false;
     
