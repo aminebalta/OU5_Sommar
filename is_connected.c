@@ -139,35 +139,35 @@ int main(int argc, char *argv[]){
             if (strcmp(user_input_node1, "quit") == 0) {
                 break;
             }
-            printf("\nYou need to enter two airports, try again.\n\n");
+            printf("You need to enter two airports, try again.\n\n");
         
         }
         /*If node is not found, program contunes and new input i requested*/
         else if(!graph_find_node(node_graph, user_input_node1) ||
            !graph_find_node(node_graph, user_input_node2)){
-            printf("\nAirport did not exist in map, try again.\n\n");
+            printf("Airport did not exist in map, try again.\n\n");
             user_input_node1[0] = '\0';
             user_input_node2[0] = '\0';
         }
         /*If input is the same, program contunes and new input is requested*/
         else if(graph_find_node(node_graph, user_input_node1) ==
            graph_find_node(node_graph, user_input_node2)){
-            printf("\nAirports are equal, try again.\n\n");
+            printf("Airports are equal, try again.\n\n");
             user_input_node1[0] = '\0';
             user_input_node2[0] = '\0';
         }
         else if(!strcmp(user_input_node1, user_input_node2)){
-            printf("\nThere is a path from %s to %s.\n\n", user_input_node1, user_input_node2);
+            printf("There is a path from %s to %s.\n\n", user_input_node1, user_input_node2);
         }
         else{
             destination_found = find_path(node_graph, graph_find_node(node_graph, user_input_node1), graph_find_node(node_graph, user_input_node2));
             
             if(destination_found == 1){
-                printf("\nThere is a path from %s to %s.\n\n", user_input_node1, user_input_node2);
+                printf("There is a path from %s to %s.\n\n", user_input_node1, user_input_node2);
             }
             
             else if (destination_found == 0){
-                printf("\nThere is no path from %s to %s.\n\n", user_input_node1, user_input_node2);
+                printf("There is no path from %s to %s.\n\n", user_input_node1, user_input_node2);
             }
         }
         printf("Enter origin and destination (quit to exit): ");
