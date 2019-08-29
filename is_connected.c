@@ -142,7 +142,7 @@ int main(int argc, char *argv[]){
             printf("You need to enter two airports, try again.\n\n");
         
         }
-        /*If node is not found, program contunes and new input i requested*/
+        /*If node is not found, program contunes and new input i requested.hej*/
         else if(!graph_find_node(node_graph, user_input_node1) ||
            !graph_find_node(node_graph, user_input_node2)){
             printf("Airport did not exist in map, try again.\n\n");
