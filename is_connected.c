@@ -149,10 +149,10 @@ int main(int argc, char *argv[]){
             user_input_node1[0] = '\0';
             user_input_node2[0] = '\0';
         }
-        /*If input is the same, program contunes and new input is requested*/
+        /*If input is the same, program continues and new input is requested*/
         else if(graph_find_node(node_graph, user_input_node1) ==
            graph_find_node(node_graph, user_input_node2)){
-            printf("Airports are equal, try again.\n\n");
+            printf("There is a path from %s to %s.\n\n", user_input_node1, user_input_node2);
             user_input_node1[0] = '\0';
             user_input_node2[0] = '\0';
         }
@@ -172,7 +172,7 @@ int main(int argc, char *argv[]){
         }
         printf("Enter origin and destination (quit to exit): ");
     }
-    printf("Proram has been quit. Normal exit.\n");
+    printf("Normal exit.\n");
     graph_kill(node_graph);
     return 0;
 }
@@ -195,26 +195,27 @@ bool find_path(graph *g,node *src,node *dest){
     queue *traverse_queue = queue_empty(NULL);
     /*Set traversed queue to seen and add to queue*/
     g = graph_node_set_seen(g, src, true);
-    queue_enqueue(traverse_queue, src);
+    traverse_queue = queue_enqueue(traverse_queue, src);
     
     /*While there are still unchecked neigbours or if destination is found*/
     while(!queue_is_empty(traverse_queue) && !destination_found){
         
         /*First element in queue*/
         n = queue_front(traverse_queue);
-        queue_dequeue(traverse_queue);
+        traverse_queue = queue_dequeue(traverse_queue);
         
         list_of_neighbour = graph_neighbours(g, n);
         pos_list = dlist_first(list_of_neighbour);
         
         while(!dlist_is_end(list_of_neighbour, pos_list)){
-            
-            if(nodes_are_equal(dest, dlist_inspect(list_of_neighbour, pos_list))){
+            node *neighbour = dlist_inspect(list_of_neighbour, pos_list);
+            if(nodes_are_equal(dest, neighbour)){
                 destination_found = true;
             }
             
-            else if(!graph_node_is_seen(g, dlist_inspect(list_of_neighbour, pos_list))){
-                graph_node_set_seen(g, dlist_inspect(list_of_neighbour, pos_list), true);
+            else if(!graph_node_is_seen(g, neighbour)){
+                traverse_queue = queue_enqueue(traverse_queue, neighbour);
+                graph_node_set_seen(g, neighbour, true);
             }
             pos_list = dlist_next(list_of_neighbour, pos_list);
         }
