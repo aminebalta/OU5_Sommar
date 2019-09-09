@@ -3,8 +3,15 @@
 //  OU5_SommarLocal
 //
 //  Created by Amine Balta and Matilda Nilsson on 2019-06-09.
+//  Version 1.0.
 //  Copyright © 2019 Amine Balta and Matilda Nilsson. All rights reserved.
 //
+//  This is an implementation for an assigment in the course Data structure and algorithms
+//  and is based on the datatype files from Cambro. It includes the main function which runs the
+//  programme, reads file, creates graph, handles input from user and also includes the
+//  breadth first search for finding connected nodes in graph.
+//
+//  Based on version 'datastructures-v1.0.8.1'.
 
 #include <stdio.h>
 #include <stdlib.h>
